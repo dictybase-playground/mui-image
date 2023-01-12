@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { makeStyles } from "@material-ui/core"
 
 type ImageProperties = {
 	src: string
@@ -10,42 +11,61 @@ type ImageProperties = {
 	easing: string
 }
 
+type StyleProperties = {
+	height: string
+	width: string
+	fit: string
+	duration: number
+	easing: string
+	loaded: boolean
+}
+
+const useStyles = makeStyles<{}, StyleProperties>({
+	root: {
+		height: (styleProps) => styleProps.height,
+		width: (styleProps) => styleProps.width,
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "black",
+	},
+	image: {
+		width: "100%",
+		height: "100%",
+		"object-fit": (styleProps) => styleProps.fit,
+		transitionProperty: "opacity",
+		transitionTimingFunction: (styleProps) => styleProps.easing,
+		transitionDuration: (styleProps) =>
+			styleProps.duration ? `${styleProps.duration}ms` : "",
+		opacity: (styleProps) => (styleProps.loaded ? 1 : 0),
+	},
+})
+
 const Image = ({
 	src,
 	alt,
 	height = "100%",
 	width = "100%",
 	fit = "cover",
-	easing = "ease",
-	duration,
+	easing = "cubic-bezier(0.7, 0, 0.6, 1)",
+	duration = 3000,
 }: ImageProperties) => {
 	const [loaded, setLoaded] = useState(false)
-	const styles = {
-		root: {
-			width,
-			height,
-			display: "flex",
-			justifyContent: "center",
-			alignItems: "center",
-			backgroundColor: "black",
-		},
-		image: {
-			width: "100%",
-			height: "100%",
-			"object-fit": fit,
-			transitionProperty: "opacity",
-			transitionTimingFunction: easing,
-			transitionDuration: duration ? `${duration}ms` : "",
-			opacity: loaded ? 1 : 0,
-		},
-	}
+	const { root, image } = useStyles({
+		height,
+		width,
+		fit,
+		easing,
+		duration,
+		loaded,
+	})
 
 	return (
-		<div style={styles.root}>
+		<div className={root}>
 			<img
 				src={src}
 				alt={alt}
-				style={styles.image}
+				className={image}
 				onLoad={() => setLoaded(true)}
 			/>
 		</div>
