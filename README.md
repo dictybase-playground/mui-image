@@ -1,4 +1,4 @@
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/dictybase-playground/mui-image)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/dictybase-playground/mui-image/tree/develop)
 
 <div align="center">
     <h1><span>🌅</span><br /><code>mui-image</code></h1>
